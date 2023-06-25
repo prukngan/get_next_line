@@ -14,8 +14,11 @@
 
 int main()
 {
-	int	fd = open("files/41_with_nl", O_RDWR);
-	printf("%s", get_next_line(fd));
+	char	*line;
+
+	int	fd = open("files/nl", O_RDWR);
+	printf("line = %s\n", get_next_line(fd));
+	printf("line = %s\n", get_next_line(fd));
 	close(fd);
 	return (0);
 }

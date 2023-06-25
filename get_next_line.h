@@ -29,9 +29,18 @@
 #  define BUFFER_SIZE 100
 #endif
 
+typedef struct s_head
+{
+	int				fd;
+	struct s_list	*list;
+	strcat s_head	next;
+}	t_head;
+
 typedef struct s_list
 {
 	char			*buffer;
+	int				start;
+	int				end;
 	int				size;
 	struct s_list	*next;
 }	t_list;
@@ -45,7 +54,7 @@ size_t	ft_strlen(const char *arg);
 
 char 		*get_next_line(int fd);
 int			ft_get(int fd, t_list **head);
-int			ft_next(t_list *node, int *len);
+int			ft_next(t_list **list, int *len);
 char		*ft_line(t_list **head, int len);
 t_list		*ft_init(t_list **pt, int size);
 void		ft_clear(t_list **node);
