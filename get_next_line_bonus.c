@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: prukngan <phongsathon.rak2003@gmail.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/04 16:55:18 by prukngan          #+#    #+#             */
-/*   Updated: 2023/07/04 16:55:18 by prukngan         ###   ########.fr       */
+/*   Created: 2023/07/20 20:13:02 by prukngan          #+#    #+#             */
+/*   Updated: 2023/07/20 20:13:02 by prukngan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
-	static t_list	*temp;
-	int				len;
+	static t_head	*temp;
+	t_head			*head;
 	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	len = 0;
+	head = temp;
 	if (!temp)
-		temp = ft_init_node(0);
-	len = ft_get(fd, temp);
-	line = ft_line(&temp, len);
-	ft_next(&temp);
+		head = ft_init_head(fd, &temp);
+	else
+	{
+		while (head && head->fd != fd)
+			head = head->next;
+		if (!head)
+			head = ft_init_head(fd, &temp);
+	}
+	if (!head->list)
+		head->list = ft_init_node(0);
+	head->len = ft_get(fd, head->list);
+	line = ft_line(&head->list, head->len);
+	ft_next(&head->list);
 	return (line);
 }
 
@@ -34,9 +43,9 @@ int	ft_get(int fd, t_list *node)
 	int		byte;
 	int		len;
 
-	byte = 1;
+	byte = BUFFER_SIZE;
 	len = 0;
-	while (!ft_find_next(node, &len) && byte > 0)
+	while (!ft_find_next(node, &len) && byte == BUFFER_SIZE)
 	{
 		node->next = ft_init_node(BUFFER_SIZE);
 		if (!node->next)

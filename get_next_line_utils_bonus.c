@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_util_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: prukngan <phongsathon.rak2003@gmail.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/08 01:27:22 by prukngan          #+#    #+#             */
-/*   Updated: 2023/07/08 01:27:22 by prukngan         ###   ########.fr       */
+/*   Created: 2023/07/20 20:14:03 by prukngan          #+#    #+#             */
+/*   Updated: 2023/07/20 20:14:03 by prukngan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_find_next(t_list *node, int *len)
 {
@@ -58,11 +58,29 @@ t_list	*ft_init_node(int size)
 		return (NULL);
 	node->buffer = (char *)malloc(size);
 	if (!node->buffer)
+	{
+		free(node);
 		return (NULL);
+	}
 	node->byte = size;
 	node->n = 0;
 	node->next = NULL;
 	return (node);
+}
+
+t_head	*ft_init_head(int fd, t_head **head)
+{
+	t_head	*new;
+
+	new = malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->list = NULL;
+	new->fd = fd;
+	new->len = 0;
+	new->next = *head;
+	*head = new;
+	return (new);
 }
 
 t_list	*ft_free_node(t_list *node)
