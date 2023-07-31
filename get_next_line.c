@@ -34,9 +34,9 @@ int	ft_get(int fd, t_list *node)
 	int		byte;
 	int		len;
 
-	byte = 1;
+	byte = BUFFER_SIZE;
 	len = 0;
-	while (!ft_find_next(node, &len) && byte > 0)
+	while (!ft_find_next(node, &len) && byte == BUFFER_SIZE)
 	{
 		node->next = ft_init_node(BUFFER_SIZE);
 		if (!node->next)
@@ -56,27 +56,27 @@ int	ft_get(int fd, t_list *node)
 
 char	*ft_line(t_list **temp, int len)
 {
-	t_list	*last;
+	t_list	*node;
 	char	*line;
 	int		i;
 
-	last = *temp;
-	if (!last || len <= 0)
+	node = *temp;
+	if (!node || len <= 0)
 		return (NULL);
 	line = malloc(len + 1);
 	if (!line)
 		return (NULL);
 	i = 0;
-	while (last)
+	while (node)
 	{
-		ft_memcpy(&line[i], last->buffer, last->n);
-		i += last->n;
-		if (!last->next)
+		ft_memcpy(&line[i], node->buffer, node->n);
+		i += node->n;
+		if (!node->next)
 		{
-			*temp = last;
+			*temp = node;
 			break ;
 		}
-		last = ft_free_node(last);
+		node = ft_free_node(node);
 	}
 	line[i] = '\0';
 	return (line);
