@@ -68,21 +68,6 @@ t_list	*ft_init_node(int size)
 	return (node);
 }
 
-t_head	*ft_init_head(int fd, t_head **head)
-{
-	t_head	*new;
-
-	new = malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->list = NULL;
-	new->fd = fd;
-	new->len = 0;
-	new->next = *head;
-	*head = new;
-	return (new);
-}
-
 t_list	*ft_free_node(t_list *node)
 {
 	t_list	*next;

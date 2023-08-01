@@ -14,18 +14,18 @@
 
 char	*get_next_line(int fd)
 {
-	static t_list	*temp;
+	static t_list	*list;
 	int				len;
 	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	len = 0;
-	if (!temp)
-		temp = ft_init_node(0);
-	len = ft_get(fd, temp);
-	line = ft_line(&temp, len);
-	ft_next(&temp);
+	if (!list)
+		list = ft_init_node(0);
+	len = ft_get(fd, list);
+	line = ft_line(&list, len);
+	ft_next(&list);
 	return (line);
 }
 
@@ -54,13 +54,13 @@ int	ft_get(int fd, t_list *node)
 	return (len);
 }
 
-char	*ft_line(t_list **temp, int len)
+char	*ft_line(t_list **list, int len)
 {
 	t_list	*node;
 	char	*line;
 	int		i;
 
-	node = *temp;
+	node = *list;
 	if (!node || len <= 0)
 		return (NULL);
 	line = malloc(len + 1);
@@ -73,7 +73,7 @@ char	*ft_line(t_list **temp, int len)
 		i += node->n;
 		if (!node->next)
 		{
-			*temp = node;
+			*list = node;
 			break ;
 		}
 		node = ft_free_node(node);

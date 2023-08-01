@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000
@@ -28,18 +29,9 @@ typedef struct s_list
 	struct s_list	*next;
 }				t_list;
 
-typedef struct s_head
-{
-	int				fd;
-	int				len;
-	struct s_list	*list;
-	struct s_head	*next;
-}				t_head;
-
 int		ft_find_next(t_list *node, int *len);
 void	*ft_memcpy(void *dest, const void *src, size_t lens);
 t_list	*ft_init_node(int size);
-t_head	*ft_init_head(int fd, t_head **head);
 t_list	*ft_free_node(t_list *node);
 
 char	*get_next_line(int fd);
